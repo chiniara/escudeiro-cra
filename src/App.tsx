@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Switch, BrowserRouter as Router, Route, Link } from "react-router-dom";
+import MainMenu from "./views/main-menu/MainMenu";
+import { Container } from "react-bootstrap";
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Container>
+        <Router>
+          <header>
+            <Link to="/">
+              <h1 className="title">ESCUDEIRO</h1>
+            </Link>
+          </header>
+          <Switch>
+            <Route path="/campaigns"></Route>
+            <Route path="/compendiums"></Route>
+            <Route path="/generators"></Route>
+            <Route path="/">
+              <MainMenu />
+            </Route>
+          </Switch>
+        </Router>
+      </Container>
     </div>
   );
-}
+};
 
 export default App;
