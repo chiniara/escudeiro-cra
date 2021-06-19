@@ -6,7 +6,7 @@ import "./MainMenu.scss";
 const MainMenu = () => {
   return (
     <div className="main-menu">
-      <Container>
+      <Container fluid>
         <Row className="menu-item">
           <Col>
             <Link to="/campaigns">

@@ -4,10 +4,14 @@ import "./index.scss";
 import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
+import { Router } from "react-router-dom";
+import { createBrowserHistory } from "history";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router history={createBrowserHistory()}>
+      <App />
+    </Router>
   </React.StrictMode>,
   document.getElementById("root")
 );
