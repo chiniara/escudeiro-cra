@@ -5,29 +5,25 @@ import "./MainMenu.scss";
 
 const MainMenu = () => {
   return (
-    <div className="main-menu">
-      <Container fluid>
+    <Container className="main-menu">
+      <Col>
         <Row className="menu-item">
-          <Col>
-            <Link to="/campaigns">
-              <Button variant="light">Campanhas</Button>
-            </Link>
-          </Col>
+          <Link to="/campaigns">
+            <Button variant="light">Campanhas</Button>
+          </Link>
         </Row>
         <Row className="menu-item">
-          <Col>
-            <Link to="/compendiums">
-              <Button variant="light">Compêndios</Button>
-            </Link>
-          </Col>
-          <Col>
-            <Link to="/generators">
-              <Button variant="light">Geradores</Button>
-            </Link>
-          </Col>
+          <Link to="/compendiums">
+            <Button variant="light">Compêndios</Button>
+          </Link>
         </Row>
-      </Container>
-    </div>
+        <Row className="menu-item">
+          <Link to="/generators">
+            <Button variant="light">Geradores</Button>
+          </Link>
+        </Row>
+      </Col>
+    </Container>
   );
 };
 

@@ -1,11 +1,17 @@
 .main-menu {
-  margin-top: 3em;
+  width: 100%;
+
   .menu-item {
-    button {
-      margin: 1rem 0;
-      font-size: 30px;
+    flex-grow: 1;
+    margin: 10px 0;
+    a {
       width: 100%;
-      line-height: 10rem;
+
+      button {
+        text-align: center;
+        width: 100%;
+        font-size: 1.5rem;
+      }
     }
   }
 }
