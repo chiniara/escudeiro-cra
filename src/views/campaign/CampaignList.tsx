@@ -1,22 +1,62 @@
-import { Button, Container, ListGroup } from "react-bootstrap";
-import { Link, useRouteMatch } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Button, Container, ListGroup, Row, Col, Modal } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import db from "../../config/database";
+import Campaign from "../../models/Campaign";
+import "./Campaign.scss";
 
 const CampaignList = () => {
-  let match = useRouteMatch();
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+
+  const getCampaigns = async () => {
+    const docs = await db.campaigns.allDocs<Campaign>({ include_docs: true });
+    const rows = docs.rows;
+    const campaigns = rows.map((row) => {
+      return row.doc as Campaign;
+    });
+
+    setCampaigns(campaigns);
+  };
+
+  useEffect(() => {
+    getCampaigns();
+  }, []);
 
   return (
     <Container>
       <header>
-        <h2>Campanhas</h2>
-        <Button>Criar Nova</Button>
+        <Container>
+          <Row>
+            <Col>
+              <h3>Campanhas</h3>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Link to="/campaigns/new">
+                <Button>+</Button>
+              </Link>
+            </Col>
+          </Row>
+        </Container>
       </header>
       <Container>
         <ListGroup>
-          <ListGroup.Item>
-            <Link to={`${match.url}/1`}>Campanha 1</Link>
-          </ListGroup.Item>
-          <ListGroup.Item>Campanha 2</ListGroup.Item>
-          <ListGroup.Item>Campanha 3</ListGroup.Item>
+          {campaigns &&
+            campaigns.length > 0 &&
+            campaigns
+              .map((c, i) => {
+                return (
+                  <ListGroup.Item key={c._id + i}>
+                    <Row>
+                      <Col>
+                        <Link to={`campaigns/${c._id}`}>{c.name}</Link>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                );
+              })
+              .sort()}
         </ListGroup>
       </Container>
     </Container>

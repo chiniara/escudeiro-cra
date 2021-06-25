@@ -1,18 +1,15 @@
 import React from "react";
 import "./App.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Switch, Route, Link, useHistory } from "react-router-dom";
-import MainMenu from "./views/main-menu/MainMenu";
+import { Switch, Route, Link, useHistory, Redirect } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
-import CampaignList from "./views/campaign/CampaignList";
-import CampaignItem from "./views/campaign/CampaignItem";
+import routes from "./routes";
 
 const App = () => {
   let history = useHistory();
 
   const handleBack = () => {
-    console.log(history);
     history.goBack();
   };
 
@@ -25,20 +22,23 @@ const App = () => {
         <Button onClick={handleBack}>Voltar</Button>
       </header>
       <Switch>
-        <Route path="/campaigns/:campaignId">
-          <CampaignItem />
+        <Route exact path="/">
+          <Redirect to="/campaigns" />
         </Route>
-        <Route path="/campaigns">
-          <CampaignList />
-        </Route>
-
-        <Route path="/compendiums"></Route>
-        <Route path="/generators"></Route>
-        <Route path="/">
-          <MainMenu />
-        </Route>
+        {routes.map((route: any, i: number) => {
+          return <RouteWithSubRoutes key={i} {...route} />;
+        })}
       </Switch>
     </div>
+  );
+};
+
+const RouteWithSubRoutes = (route: any) => {
+  return (
+    <Route
+      path={route.path}
+      render={(props) => <route.component {...props} routes={route.routes} />}
+    />
   );
 };
 
