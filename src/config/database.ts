@@ -1,4 +1,7 @@
 import PouchDB from "pouchdb";
+import PouchFind from "pouchdb-find";
+
+PouchDB.plugin(PouchFind);
 
 const db = {
   campaigns: new PouchDB("_escudeiro_campaigns"),

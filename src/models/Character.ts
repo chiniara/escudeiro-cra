@@ -1,27 +1,26 @@
-export default class Character {
-  _id?: string;
+import PouchDocument from "./PouchDocument";
+
+export default class Character extends PouchDocument {
   name: string;
   sex: string;
-  age: string;
+  age: number;
   sheet: string;
   description: string;
-  campaignId: string;
+  campaignId?: string;
 
   constructor(
-    name: string,
-    sex: string,
-    age: string,
-    sheet: string,
-    description: string,
-    campaignId: string,
-    _id?: string
+    name?: string,
+    sex?: string,
+    age?: number,
+    sheet?: string,
+    description?: string,
+    id?: string
   ) {
-    this._id = _id;
-    this.name = name;
-    this.sex = sex;
-    this.age = age;
-    this.sheet = sheet;
-    this.description = description;
-    this.campaignId = campaignId;
+    super(id);
+    this.name = name ?? "";
+    this.sex = sex ?? "";
+    this.age = age ?? 0;
+    this.sheet = sheet ?? "";
+    this.description = description ?? "";
   }
 }

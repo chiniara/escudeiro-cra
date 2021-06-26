@@ -1,10 +1,10 @@
-import Document from "./Document";
+import PouchDocument from "./PouchDocument";
 
-export default class Campaign extends Document {
-  name: string;
+export default class Campaign extends PouchDocument {
+  name?: string;
 
   constructor(name?: string, id?: string) {
     super(id);
-    this.name = name ?? "";
+    this.name = name;
   }
 }

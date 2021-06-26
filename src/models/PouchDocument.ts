@@ -1,6 +1,6 @@
 import slugify from "slugify";
 
-export default class Document {
+export default class PouchDocument {
   _id: string;
   _rev!: string;
 

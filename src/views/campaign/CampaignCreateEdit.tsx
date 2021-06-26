@@ -1,4 +1,5 @@
 import {
+  ChangeEventHandler,
   FormEventHandler,
   FunctionComponent,
   useEffect,
@@ -29,24 +30,27 @@ const CampaignCreateEdit: FunctionComponent = () => {
     getCampaign();
   }, [campaignId]);
 
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setCampaign({ ...campaign, [event.target.name]: event.target.value });
+  };
+
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
     const form = event.currentTarget;
-    console.log(form.checkValidity() === false);
     if (form.checkValidity() === false) {
       event.stopPropagation();
+    } else {
+      try {
+        await db.campaigns.put(campaign);
+
+        if (!campaignId) history.replace("/campaigns");
+        else history.goBack();
+      } catch (error) {
+        console.log(error);
+      }
     }
     setValidated(true);
-
-    try {
-      await db.campaigns.put(campaign);
-
-      if (!campaignId) history.replace("/campaigns");
-      else history.goBack();
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
@@ -62,11 +66,10 @@ const CampaignCreateEdit: FunctionComponent = () => {
             <Form.Label>Nome da campanha</Form.Label>
             <Form.Control
               required
+              name="name"
               type="text"
               value={campaign.name}
-              onChange={(e) => {
-                setCampaign({ ...campaign, name: e.target.value });
-              }}
+              onChange={handleChange}
             />
             <Form.Control.Feedback type="invalid">
               Por favor escolha um nome.

@@ -1,7 +1,15 @@
 import { faPencilAlt, faEraser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
-import { Button, Col, Container, ListGroup, Modal, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  ListGroup,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import { Link, useHistory, useParams } from "react-router-dom";
 import db from "../../config/database";
 import Campaign from "../../models/Campaign";
@@ -63,14 +71,7 @@ const CampaignView = () => {
         </Container>
       </header>
       <Container>
-        <ListGroup>
-          <ListGroup.Item>
-            <Link to={`${campaignId}/characters`}>Personagens</Link>
-          </ListGroup.Item>
-          <ListGroup.Item>Localidades</ListGroup.Item>
-          <ListGroup.Item>Sessões</ListGroup.Item>
-          <ListGroup.Item>Notas</ListGroup.Item>
-        </ListGroup>
+        <ListGroup></ListGroup>
 
         <Modal size={"sm"} show={showDelete} onHide={handleCloseDelete}>
           <Modal.Header closeButton>

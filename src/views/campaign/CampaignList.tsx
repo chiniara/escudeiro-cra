@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Container, ListGroup, Row, Col, Modal } from "react-bootstrap";
+import { Button, Container, ListGroup, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import db from "../../config/database";
 import Campaign from "../../models/Campaign";
@@ -50,7 +50,7 @@ const CampaignList = () => {
                   <ListGroup.Item key={c._id + i}>
                     <Row>
                       <Col>
-                        <Link to={`campaigns/${c._id}`}>{c.name}</Link>
+                        <Link to={`${c._id}`}>{c.name}</Link>
                       </Col>
                     </Row>
                   </ListGroup.Item>
