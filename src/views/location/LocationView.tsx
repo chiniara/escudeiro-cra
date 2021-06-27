@@ -16,7 +16,6 @@ import {
   ListGroupItem,
   Modal as BootstrapModal,
   Row,
-  Table,
 } from "react-bootstrap";
 import {
   ImageOverlay,
@@ -25,12 +24,8 @@ import {
   Marker,
   Popup,
 } from "react-leaflet";
-import { Link, useParams } from "react-router-dom";
-import {
-  faChevronDown,
-  faEraser,
-  faPencilAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { useParams } from "react-router-dom";
+import { faChevronDown, faEraser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import db from "../../config/database";
