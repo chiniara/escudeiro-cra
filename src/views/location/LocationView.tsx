@@ -2,6 +2,7 @@ import { CRS, LatLngBounds } from "leaflet";
 import React, {
   ChangeEventHandler,
   FormEventHandler,
+  FunctionComponent,
   useEffect,
   useState,
 } from "react";
@@ -22,6 +23,7 @@ import {
   MapContainer,
   useMapEvents,
   Marker,
+  Tooltip,
   Popup,
 } from "react-leaflet";
 import { useParams } from "react-router-dom";
@@ -35,7 +37,7 @@ import LocationMarker from "../../models/LocationMarker";
 import { Modal } from "../../components/Modal";
 import "./Location.scss";
 
-const LocationView = () => {
+const LocationView: FunctionComponent = () => {
   const [location, setLocation] = useState<Location>(new Location());
   const [campaign, setCampaign] = useState<Campaign>();
   const [mapUrl, setmapUrl] = useState<string>("");
@@ -92,7 +94,7 @@ const LocationView = () => {
   const handleCloseDelete = () => setShowDelete(false);
 
   const handleShowDelete: any = async (id: string) => {
-    const result = locationMarkers.find((c) => c._id === id);
+    const result = await db.marks.get<LocationMarker>(id);
     setMarkerToDelete(result);
 
     setdeleteMessage(
@@ -105,11 +107,11 @@ const LocationView = () => {
 
   const handleDelete = async () => {
     try {
-      console.log(markerToDelete);
       if (markerToDelete) await db.marks.remove(markerToDelete);
       const newLocationMarkersList = locationMarkers.filter(
         (c) => c._id !== markerToDelete?._id
       );
+      setMarkerToDelete(undefined);
       setLocationMarkers(newLocationMarkersList);
       handleCloseDelete();
     } catch (error) {
@@ -187,6 +189,11 @@ const LocationView = () => {
               <h4>{location?.name}</h4>
             </Col>
           </Row>
+          <Row>
+            <Col>
+              <h6>Clique no mapa para adicionar marcadores.</h6>
+            </Col>
+          </Row>
         </Container>
       </header>
       <Container>
@@ -204,10 +211,20 @@ const LocationView = () => {
           />
           {locationMarkers.map((m, i) => {
             return (
-              <Marker key={i} position={m.coordinates}>
+              <Marker title={m.title} key={i} position={m.coordinates}>
+                <Tooltip>{m.title}</Tooltip>
                 <Popup>
                   <p>{getStringCoordinates(m)}</p>
                   <p>{m.description}</p>
+                  <Col>
+                    <Button
+                      size="sm"
+                      variant="danger"
+                      onClick={() => handleShowDelete(m._id)}
+                    >
+                      <FontAwesomeIcon icon={faEraser} />
+                    </Button>
+                  </Col>
                 </Popup>
               </Marker>
             );
@@ -226,7 +243,12 @@ const LocationView = () => {
                 <Col>
                   <Card>
                     <Card.Header>
-                      <strong>{`(${getStringCoordinates(m)})`}</strong>
+                      <p>
+                        <strong>{m.title}</strong>
+                      </p>
+                      <p>
+                        <strong>{`(${getStringCoordinates(m)})`}</strong>
+                      </p>
                     </Card.Header>
                     <ListGroup className="list-group-flush">
                       <Accordion>
@@ -273,23 +295,39 @@ const LocationView = () => {
           <BootstrapModal.Body>
             <p>Gostaria de adicionar um marcador nessa posição?</p>
             <Form.Group controlId="coordinates">
-              <Form.Label>Título</Form.Label>
               <Form.Control
-                name="title"
+                name="coordinates"
                 type="text"
                 hidden
                 value={JSON.stringify(markerToAdd.coordinates)}
                 onChange={handleChange}
               />
             </Form.Group>
+            <Form.Group controlId="title">
+              <Form.Label>Título</Form.Label>
+              <Form.Control
+                required
+                name="title"
+                type="text"
+                value={markerToAdd.title}
+                onChange={handleChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                Por favor insira um título.
+              </Form.Control.Feedback>
+            </Form.Group>
             <Form.Group controlId="description">
               <Form.Label>Descrição</Form.Label>
               <Form.Control
+                required
                 name="description"
                 as={"textarea"}
                 value={markerToAdd.description}
                 onChange={handleChange}
               />
+              <Form.Control.Feedback type="invalid">
+                Por favor insira uma descrição.
+              </Form.Control.Feedback>
             </Form.Group>
           </BootstrapModal.Body>
           <BootstrapModal.Footer>

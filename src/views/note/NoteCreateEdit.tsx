@@ -71,11 +71,15 @@ const NoteCreateEdit: FunctionComponent = () => {
           <Form.Group controlId="title">
             <Form.Label>Título</Form.Label>
             <Form.Control
+              required
               name="title"
               type="text"
               value={note.title}
               onChange={handleChange}
             />
+            <Form.Control.Feedback type="invalid">
+              Por favor insira um título.
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="content">
             <Form.Label>Conteúdo</Form.Label>
