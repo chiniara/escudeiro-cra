@@ -164,13 +164,10 @@ const LocationView = () => {
   }, [campaignId, locationId]);
 
   const AddLocationMarker = () => {
-    const map = useMapEvents({
+    useMapEvents({
       click: (e) => {
         setMarkerToAdd({ ...markerToAdd, coordinates: e.latlng });
         handleShowMarkerAdd();
-      },
-      locationfound: (location: any) => {
-        console.log("location found:", location);
       },
     });
     return null;
@@ -297,10 +294,10 @@ const LocationView = () => {
           </BootstrapModal.Body>
           <BootstrapModal.Footer>
             <Button variant="secondary" onClick={handleCloseMarkerAdd}>
-              Enviar
+              Fechar
             </Button>
             <Button variant="primary" type="submit">
-              Deletar
+              Enviar
             </Button>
           </BootstrapModal.Footer>
         </Form>

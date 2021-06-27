@@ -18,7 +18,6 @@ const CharacterCreateEdit: FunctionComponent = () => {
   const { campaignId, characterId } =
     useParams<{ campaignId: string; characterId: string }>();
 
-  console.log(campaignId, characterId);
   let history = useHistory();
 
   useEffect(() => {

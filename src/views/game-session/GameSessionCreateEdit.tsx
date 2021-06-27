@@ -23,7 +23,6 @@ const GameSessionCreateEdit: FunctionComponent = () => {
   const { campaignId, gameSessionId } =
     useParams<{ campaignId: string; gameSessionId: string }>();
 
-  console.log(campaignId, gameSessionId);
   let history = useHistory();
 
   useEffect(() => {

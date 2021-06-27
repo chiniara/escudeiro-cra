@@ -78,7 +78,6 @@ const LocationCreateEdit: FunctionComponent = () => {
           location.campaignId = campaignId;
         }
         setLocation(location);
-        console.log(location);
         await db.locations.put(location);
 
         history.goBack();

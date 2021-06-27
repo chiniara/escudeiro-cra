@@ -20,7 +20,6 @@ const NoteCreateEdit: FunctionComponent = () => {
   const { campaignId, noteId } =
     useParams<{ campaignId: string; noteId: string }>();
 
-  console.log(campaignId, noteId);
   let history = useHistory();
 
   useEffect(() => {
