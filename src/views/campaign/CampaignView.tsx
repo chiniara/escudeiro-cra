@@ -67,14 +67,20 @@ const CampaignView = () => {
           <ListGroup.Item>
             <Link to={`${campaignId}/characters`}>Personagens</Link>
           </ListGroup.Item>
-          <ListGroup.Item>Localidades</ListGroup.Item>
-          <ListGroup.Item>Sessões</ListGroup.Item>
-          <ListGroup.Item>Notas</ListGroup.Item>
+          <ListGroup.Item>
+            <Link to={`${campaignId}/locations`}>Localidades</Link>
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <Link to={`${campaignId}/sessions`}>Sessões</Link>
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <Link to={`${campaignId}/notes`}>Notas</Link>
+          </ListGroup.Item>
         </ListGroup>
 
         <Modal size={"sm"} show={showDelete} onHide={handleCloseDelete}>
           <Modal.Header closeButton>
-            <Modal.Title>Deletar Campanha</Modal.Title>
+            <Modal.Title>Deletar</Modal.Title>
           </Modal.Header>
           <Modal.Body>Tem certeza que deseja deletar essa campanha?</Modal.Body>
           <Modal.Footer>

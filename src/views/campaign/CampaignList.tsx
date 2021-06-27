@@ -50,7 +50,7 @@ const CampaignList = () => {
                   <ListGroup.Item key={c._id + i}>
                     <Row>
                       <Col>
-                        <Link to={`${c._id}`}>{c.name}</Link>
+                        <Link to={`campaigns/${c._id}`}>{c.name}</Link>
                       </Col>
                     </Row>
                   </ListGroup.Item>

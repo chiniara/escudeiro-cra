@@ -18,37 +18,40 @@ import {
 import { Link, useParams } from "react-router-dom";
 import db from "../../config/database";
 import Campaign from "../../models/Campaign";
-import Character from "../../models/Character";
-import "./Character.scss";
+import GameSession from "../../models/GameSession";
+import "./GameSession.scss";
 import { Modal } from "../../components/Modal";
+import MomentLocaleUtils from "react-day-picker/moment";
 
-const CharacterList = () => {
-  const [characters, setCharacters] = useState<Character[]>([]);
+const GameSessionList = () => {
+  const [gameSessions, setGameSessions] = useState<GameSession[]>([]);
   const [campaign, setCampaign] = useState<Campaign>();
   const [showDelete, setShowDelete] = useState(false);
   const [deleteMessage, setdeleteMessage] = useState("");
-  const [characterToDelete, setcharacterToDelete] = useState<Character>();
+  const [gameSessionToDelete, setgameSessionToDelete] = useState<GameSession>();
 
   const { campaignId } = useParams<{ campaignId: string }>();
 
   const handleCloseDelete = () => setShowDelete(false);
 
   const handleShowDelete: any = async (id: string) => {
-    const result = characters.find((c) => c._id === id);
-    setcharacterToDelete(result);
+    const result = gameSessions.find((c) => c._id === id);
+    setgameSessionToDelete(result);
 
     setdeleteMessage(
-      `Tem certeza que deseja deletar a personagem ${result?.name}`
+      `Tem certeza que deseja deletar a sessão do dia ${
+        result?.date && MomentLocaleUtils.formatDate(result.date, "DD/MM/YYYY")
+      }`
     );
     setShowDelete(true);
   };
 
   const handleDelete = async () => {
-    if (characterToDelete) await db.characters.remove(characterToDelete);
-    const newCharacterList = characters.filter(
-      (c) => c._id !== characterToDelete?._id
+    if (gameSessionToDelete) await db.gameSessions.remove(gameSessionToDelete);
+    const newGameSessionList = gameSessions.filter(
+      (c) => c._id !== gameSessionToDelete?._id
     );
-    setCharacters(newCharacterList);
+    setGameSessions(newGameSessionList);
     handleCloseDelete();
   };
 
@@ -60,16 +63,16 @@ const CharacterList = () => {
       setCampaign(campaign);
     };
 
-    const getCharacters = async () => {
+    const getGameSessions = async () => {
       try {
-        const result = await db.characters.find({ selector: { campaignId } });
-        setCharacters(result.docs as Character[]);
+        const result = await db.gameSessions.find({ selector: { campaignId } });
+        setGameSessions(result.docs as GameSession[]);
       } catch (error) {
         console.log(error);
       }
     };
 
-    getCharacters();
+    getGameSessions();
     getCampaign();
   }, [campaignId]);
 
@@ -84,12 +87,12 @@ const CharacterList = () => {
           </Row>
           <Row>
             <Col>
-              <h4>Personagens</h4>
+              <h4>Sessões</h4>
             </Col>
           </Row>
           <Row>
             <Col>
-              <Link to="characters/new">
+              <Link to="sessions/new">
                 <Button>+</Button>
               </Link>
             </Col>
@@ -97,44 +100,69 @@ const CharacterList = () => {
         </Container>
       </header>
       <Container>
-        {characters &&
-          characters.length > 0 &&
-          characters
+        {gameSessions &&
+          gameSessions.length > 0 &&
+          gameSessions
             .map((c, i) => {
               return (
                 <Row key={c._id + i}>
                   <Col>
-                    <Card className="character-info">
+                    <Card className="gameSession-info">
                       <Card.Header>
-                        <strong>{c.name}</strong>
+                        <strong>
+                          {MomentLocaleUtils.formatDate(c.date, "DD/MM/YYYY")}
+                        </strong>
                       </Card.Header>
                       <ListGroup className="list-group-flush">
-                        <ListGroupItem>
-                          <strong>Idade:</strong> {c.age}
-                        </ListGroupItem>
-                        <ListGroupItem>
-                          <strong>Descrição:</strong> {c.description}
-                        </ListGroupItem>
-                        <ListGroupItem>
-                          <strong>Sexo:</strong> {c.sex}
-                        </ListGroupItem>
-                        <Accordion defaultActiveKey="0">
+                        <Accordion>
                           <Accordion.Toggle
                             as={ListGroupItem}
                             className="sheet-open-button"
                             eventKey="0"
                           >
-                            <strong>Ficha</strong>{" "}
+                            <strong>Antes</strong>{" "}
                             <FontAwesomeIcon icon={faChevronDown} />
                           </Accordion.Toggle>
                           <Accordion.Collapse eventKey="0">
-                            <ListGroupItem>{c.sheet}</ListGroupItem>
+                            <ListGroupItem className="content">
+                              {c.before}
+                            </ListGroupItem>
+                          </Accordion.Collapse>
+                        </Accordion>
+                        <Accordion>
+                          <Accordion.Toggle
+                            as={ListGroupItem}
+                            className="sheet-open-button"
+                            eventKey="1"
+                          >
+                            <strong>Durante</strong>{" "}
+                            <FontAwesomeIcon icon={faChevronDown} />
+                          </Accordion.Toggle>
+                          <Accordion.Collapse eventKey="1">
+                            <ListGroupItem className="content">
+                              {c.during}
+                            </ListGroupItem>
+                          </Accordion.Collapse>
+                        </Accordion>
+                        <Accordion>
+                          <Accordion.Toggle
+                            as={ListGroupItem}
+                            className="sheet-open-button"
+                            eventKey="2"
+                          >
+                            <strong>Depois</strong>{" "}
+                            <FontAwesomeIcon icon={faChevronDown} />
+                          </Accordion.Toggle>
+                          <Accordion.Collapse eventKey="2">
+                            <ListGroupItem className="content">
+                              {c.after}
+                            </ListGroupItem>
                           </Accordion.Collapse>
                         </Accordion>
                       </ListGroup>
                       <Card.Body>
                         <Col>
-                          <Link to={`characters/${c._id}/edit`}>
+                          <Link to={`sessions/${c._id}/edit`}>
                             <Button variant="warning">
                               <FontAwesomeIcon icon={faPencilAlt} />
                             </Button>
@@ -164,4 +192,4 @@ const CharacterList = () => {
   );
 };
 
-export default CharacterList;
+export default GameSessionList;

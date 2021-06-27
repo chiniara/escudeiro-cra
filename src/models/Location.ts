@@ -1,21 +1,14 @@
-export default class Location {
-  _id?: string;
+import PouchDocument from "./PouchDocument";
+
+export default class Location extends PouchDocument {
   name: string;
-  description: string;
   map: unknown;
   campaignId: string;
 
-  constructor(
-    name: string,
-    description: string,
-    map: unknown,
-    campaignId: string,
-    _id?: string
-  ) {
-    this._id = _id;
-    this.name = name;
-    this.description = description;
+  constructor(name?: string, map?: unknown, campaignId?: string, id?: string) {
+    super(id);
+    this.name = name ?? "";
     this.map = map;
-    this.campaignId = campaignId;
+    this.campaignId = campaignId ?? "";
   }
 }

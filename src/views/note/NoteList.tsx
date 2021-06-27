@@ -18,37 +18,33 @@ import {
 import { Link, useParams } from "react-router-dom";
 import db from "../../config/database";
 import Campaign from "../../models/Campaign";
-import Character from "../../models/Character";
-import "./Character.scss";
+import Note from "../../models/Note";
+import "./Note.scss";
 import { Modal } from "../../components/Modal";
 
-const CharacterList = () => {
-  const [characters, setCharacters] = useState<Character[]>([]);
+const NoteList = () => {
+  const [notes, setNotes] = useState<Note[]>([]);
   const [campaign, setCampaign] = useState<Campaign>();
   const [showDelete, setShowDelete] = useState(false);
   const [deleteMessage, setdeleteMessage] = useState("");
-  const [characterToDelete, setcharacterToDelete] = useState<Character>();
+  const [noteToDelete, setnoteToDelete] = useState<Note>();
 
   const { campaignId } = useParams<{ campaignId: string }>();
 
   const handleCloseDelete = () => setShowDelete(false);
 
   const handleShowDelete: any = async (id: string) => {
-    const result = characters.find((c) => c._id === id);
-    setcharacterToDelete(result);
+    const result = notes.find((c) => c._id === id);
+    setnoteToDelete(result);
 
-    setdeleteMessage(
-      `Tem certeza que deseja deletar a personagem ${result?.name}`
-    );
+    setdeleteMessage(`Tem certeza que deseja deletar a nota ${result?.title}`);
     setShowDelete(true);
   };
 
   const handleDelete = async () => {
-    if (characterToDelete) await db.characters.remove(characterToDelete);
-    const newCharacterList = characters.filter(
-      (c) => c._id !== characterToDelete?._id
-    );
-    setCharacters(newCharacterList);
+    if (noteToDelete) await db.notes.remove(noteToDelete);
+    const newNoteList = notes.filter((c) => c._id !== noteToDelete?._id);
+    setNotes(newNoteList);
     handleCloseDelete();
   };
 
@@ -60,16 +56,16 @@ const CharacterList = () => {
       setCampaign(campaign);
     };
 
-    const getCharacters = async () => {
+    const getNotes = async () => {
       try {
-        const result = await db.characters.find({ selector: { campaignId } });
-        setCharacters(result.docs as Character[]);
+        const result = await db.notes.find({ selector: { campaignId } });
+        setNotes(result.docs as Note[]);
       } catch (error) {
         console.log(error);
       }
     };
 
-    getCharacters();
+    getNotes();
     getCampaign();
   }, [campaignId]);
 
@@ -84,12 +80,12 @@ const CharacterList = () => {
           </Row>
           <Row>
             <Col>
-              <h4>Personagens</h4>
+              <h4>Notas</h4>
             </Col>
           </Row>
           <Row>
             <Col>
-              <Link to="characters/new">
+              <Link to="notes/new">
                 <Button>+</Button>
               </Link>
             </Col>
@@ -97,44 +93,37 @@ const CharacterList = () => {
         </Container>
       </header>
       <Container>
-        {characters &&
-          characters.length > 0 &&
-          characters
+        {notes &&
+          notes.length > 0 &&
+          notes
             .map((c, i) => {
               return (
                 <Row key={c._id + i}>
                   <Col>
-                    <Card className="character-info">
+                    <Card className="note-info">
                       <Card.Header>
-                        <strong>{c.name}</strong>
+                        <strong>{c.title}</strong>
                       </Card.Header>
                       <ListGroup className="list-group-flush">
-                        <ListGroupItem>
-                          <strong>Idade:</strong> {c.age}
-                        </ListGroupItem>
-                        <ListGroupItem>
-                          <strong>Descrição:</strong> {c.description}
-                        </ListGroupItem>
-                        <ListGroupItem>
-                          <strong>Sexo:</strong> {c.sex}
-                        </ListGroupItem>
-                        <Accordion defaultActiveKey="0">
+                        <Accordion>
                           <Accordion.Toggle
                             as={ListGroupItem}
                             className="sheet-open-button"
                             eventKey="0"
                           >
-                            <strong>Ficha</strong>{" "}
+                            <strong>Conteúdo</strong>{" "}
                             <FontAwesomeIcon icon={faChevronDown} />
                           </Accordion.Toggle>
                           <Accordion.Collapse eventKey="0">
-                            <ListGroupItem>{c.sheet}</ListGroupItem>
+                            <ListGroupItem className="content">
+                              {c.content}
+                            </ListGroupItem>
                           </Accordion.Collapse>
                         </Accordion>
                       </ListGroup>
                       <Card.Body>
                         <Col>
-                          <Link to={`characters/${c._id}/edit`}>
+                          <Link to={`sessions/${c._id}/edit`}>
                             <Button variant="warning">
                               <FontAwesomeIcon icon={faPencilAlt} />
                             </Button>
@@ -164,4 +153,4 @@ const CharacterList = () => {
   );
 };
 
-export default CharacterList;
+export default NoteList;

@@ -1,0 +1,32 @@
+.date-input {
+  display: flex;
+  flex-direction: column;
+
+  .DayPickerInput {
+    input {
+      border-radius: 0.25rem;
+      width: 100%;
+      text-align: center;
+      height: calc(1.5em + 0.75rem + 2px);
+      padding: 0.375rem 0.75rem;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      color: #495057;
+      background-color: #fff;
+
+      &:focus-visible {
+        outline: -webkit-focus-ring-color auto 1px;
+      }
+    }
+  }
+}
+
+// display: block;
+// width: 100%;
+
+// border-radius: 0.25rem;
+//

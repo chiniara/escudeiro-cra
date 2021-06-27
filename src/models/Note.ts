@@ -1,11 +1,19 @@
-export default class Note {
-  _id?: string;
+import PouchDocument from "./PouchDocument";
+
+export default class Note extends PouchDocument {
+  title: string;
   content: string;
   campaignId: string;
 
-  constructor(content: string, campaignId: string, _id?: string) {
-    this._id = _id;
-    this.content = content;
-    this.campaignId = campaignId;
+  constructor(
+    title?: string,
+    content?: string,
+    campaignId?: string,
+    id?: string
+  ) {
+    super(id);
+    this.title = title ?? "";
+    this.content = content ?? "";
+    this.campaignId = campaignId ?? "";
   }
 }

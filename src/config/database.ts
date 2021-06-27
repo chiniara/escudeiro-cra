@@ -8,7 +8,7 @@ const db = {
   characters: new PouchDB("_escudeiro_characters"),
   locations: new PouchDB("_escudeiro_locations"),
   marks: new PouchDB("_escudeiro_marks"),
-  sessions: new PouchDB("_escudeiro_sessions"),
+  gameSessions: new PouchDB("_escudeiro_game_sessions"),
   notes: new PouchDB("_escudeiro_notes"),
 };
 

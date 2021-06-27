@@ -1,5 +1,6 @@
-export default class GameSession {
-  _id?: string;
+import PouchDocument from "./PouchDocument";
+
+export default class GameSession extends PouchDocument {
   date: Date;
   before: string;
   during: string;
@@ -7,18 +8,18 @@ export default class GameSession {
   campaignId: string;
 
   constructor(
-    date: Date,
-    before: string,
-    during: string,
-    after: string,
-    campaignId: string,
-    _id?: string
+    date?: Date,
+    before?: string,
+    during?: string,
+    after?: string,
+    campaignId?: string,
+    id?: string
   ) {
-    this._id = _id;
-    this.date = date;
-    this.before = before;
-    this.during = during;
-    this.after = after;
-    this.campaignId = campaignId;
+    super(id);
+    this.date = date ?? new Date();
+    this.before = before ?? "";
+    this.during = during ?? "";
+    this.after = after ?? "";
+    this.campaignId = campaignId ?? "";
   }
 }
