@@ -1,0 +1,41 @@
+.dice-roller-modal {
+  max-height: 80%;
+
+  .dice-bar {
+    height: 15%;
+
+    .dice {
+      margin: 2px 0;
+      justify-content: space-around;
+      display: flex;
+      flex-wrap: wrap;
+
+      button {
+        margin: 2px 2px;
+      }
+    }
+
+    .modifier {
+      width: 100%;
+    }
+
+    .quantity {
+      width: 100%;
+    }
+  }
+
+  .dice-roll-history {
+    height: 25vw;
+    overflow-y: scroll;
+    overflow-wrap: break-word;
+
+    * {
+      overflow-anchor: none;
+    }
+
+    .anchor {
+      overflow-anchor: auto;
+      height: 1px;
+    }
+  }
+}
