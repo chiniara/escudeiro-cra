@@ -92,7 +92,7 @@ const LocationCreateEdit: FunctionComponent = () => {
     <Container>
       <header>
         <Container>
-          <h3>{locationId ? "Editar" : "Criar"} Nota</h3>
+          <h3>{locationId ? "Editar" : "Criar"} Localidade</h3>
         </Container>
       </header>
       <Container>

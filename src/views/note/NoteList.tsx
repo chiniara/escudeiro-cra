@@ -123,7 +123,7 @@ const NoteList = () => {
                       </ListGroup>
                       <Card.Body>
                         <Col>
-                          <Link to={`sessions/${c._id}/edit`}>
+                          <Link to={`notes/${c._id}/edit`}>
                             <Button variant="warning">
                               <FontAwesomeIcon icon={faPencilAlt} />
                             </Button>
