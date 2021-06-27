@@ -21,8 +21,8 @@ const routes = [
     component: LocationView,
   },
   {
-    path: "/campaigns/:campaignId/sessions/:noteId/edit",
-    component: NoteCreateEdit,
+    path: "/campaigns/:campaignId/sessions/:gameSessionId/edit",
+    component: GameSessionCreateEdit,
   },
   {
     path: "/campaigns/:campaignId/sessions/:gameSessionId/edit",
